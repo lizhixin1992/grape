@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: grape-mgr
+  profiles:
+    active: test
+
+#安全验证
+management:
+  security:
+    enabled: false
+endpoints:
+  health:
+    sensitive: false
+  shutdown:
+    enabled: false
+
+---
+# druid 连接池配置
+spring:
+  datasource:
+    druid:
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+      filters: stat,wall
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      WebStatFilter:
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+      StatViewServlet:
+        loginUsername: admin
+        loginPassword: admin

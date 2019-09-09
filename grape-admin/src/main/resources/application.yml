@@ -1,0 +1,40 @@
+grape:
+  version: 1.0.0
+
+spring:
+  application:
+    name: grape-admin
+  profiles:
+    active: test
+
+#安全验证(默认只能打开health,info)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ["*"]
+
+---
+# druid 连接池配置
+spring:
+  datasource:
+    druid:
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+      filters: stat,wall
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      WebStatFilter:
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+      StatViewServlet:
+        loginUsername: admin
+        loginPassword: admin
